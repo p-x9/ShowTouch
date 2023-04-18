@@ -1,0 +1,9 @@
+[submodule "Sources/TouchTracker"]
+	path = Sources/TouchTracker
+	url = https://github.com/p-x9/TouchTracker.git
+[submodule "Sources/ShowTouch/TouchTracker"]
+	path = Sources/ShowTouch/TouchTracker
+	url = https://github.com/p-x9/TouchTracker.git
+[submodule "TouchTracker"]
+	path = TouchTracker
+	url = https://github.com/p-x9/TouchTracker.git

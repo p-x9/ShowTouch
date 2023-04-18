@@ -1,0 +1,9 @@
+Package: com.p-x9.showtouch
+Name: showtouch
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome Orion tweak!
+Maintainer: p-x9
+Author: p-x9
+Section: Tweaks
+Depends: ${ORION}, firmware (>= 12.2)
