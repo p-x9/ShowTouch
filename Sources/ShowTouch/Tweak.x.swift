@@ -1,6 +1,9 @@
 import Foundation
 import Orion
 import ShowTouchC
+import SwiftUI
+
+var localSettings: Configuration = .default
 
 struct tweak: HookGroup {}
 
@@ -29,15 +32,15 @@ class UIViewController_Hook: ClassHook<UIViewController> {
 extension UIWindow {
     func install() {
         let v = TouchTrackingUIView(
-            radius: 30,
-            color: .purple,
-            offset: .init(x: 0, y: -10),
-            isBordered: true,
-            borderColor: .white,
-            isDropShadow: true,
-            shadowColor: .yellow,
-            shadowRadius: 4,
-            isShowLocation: true
+            radius: localSettings.radius,
+            color: UIColor(cgColor: .color(rgba: localSettings.color)),
+            offset: localSettings.offset,
+            isBordered: localSettings.isBordered,
+            borderColor: UIColor(cgColor: .color(rgba: localSettings.borderColor)),
+            isDropShadow: localSettings.isDropShadow,
+            shadowColor: UIColor(cgColor: .color(rgba: localSettings.shadowColor)),
+            shadowRadius: localSettings.shadowRadius,
+            isShowLocation: localSettings.isShowLocation
         )
         v.isHidden = true
 
@@ -54,9 +57,38 @@ extension UIWindow {
     }
 }
 
+func readPrefs() {
+    let path = "/var/mobile/Library/Preferences/com.p-x9.showtouch.pref.plist"
+    let url = URL(fileURLWithPath: path)
+
+    // Reading values
+    guard let data = try? Data(contentsOf: url) else {
+        return
+    }
+    let decoder = PropertyListDecoder()
+    localSettings =  (try? decoder.decode(Configuration.self, from: data)) ?? .default
+}
+
+func settingChanged() {
+    readPrefs()
+}
+
+func observePrefsChange() {
+    let NOTIFY = "com.p-x9.showtouch.prefschanged" as CFString
+
+    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+                                    nil, { _, _, _, _, _ in
+        settingChanged()
+    }, NOTIFY, nil, CFNotificationSuspensionBehavior.deliverImmediately)
+}
 
 struct ShowTouch: Tweak {
     init() {
-        tweak().activate()
+        readPrefs()
+        observePrefsChange()
+
+        if localSettings.isEnabled {
+            tweak().activate()
+        }
     }
 }
