@@ -27,7 +27,7 @@ extension Binding where Value == CGFloat {
     var string: Binding<String> {
         .init(
             get: {
-                String(format: "%.2f", wrappedValue)
+                "\(wrappedValue)"
             },
             set: {
                 guard let n = Double($0) else {
