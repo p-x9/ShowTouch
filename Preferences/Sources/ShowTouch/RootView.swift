@@ -11,6 +11,8 @@ import SwiftUI
 struct RootView: View {
     @ObservedObject var preferences = Preferences(path: Constant.preferencePlistPath)
 
+    @Environment(\.openURL) private var openURL
+
     var mainSection: some View {
         Section {
             VStack {
@@ -134,6 +136,32 @@ struct RootView: View {
         .textCase(nil)
     }
 
+    var aboutSection: some View {
+        Section {
+            Button {
+                openURL(URL(string: "https://github.com/p-x9/ShowTouch")!)
+            } label: {
+                HStack {
+                    Image(uiImage: UIImage(named: "GitHub", in: .preference, with: nil)!)
+                    Text("Source Code")
+                }
+            }
+
+            Button {
+                openURL(URL(string: "https://twitter.com/p_x9")!)
+            } label: {
+                HStack {
+                    Image(uiImage: UIImage(named: "Twitter", in: .preference, with: nil)!)
+                    Text("Twitter")
+                }
+            }
+
+        } header: {
+            Text("About")
+        }
+        .textCase(nil)
+    }
+
     var body: some View {
         Form {
             Section {
@@ -147,6 +175,8 @@ struct RootView: View {
             borderSection
 
             shadowSection
+
+            aboutSection
         }
         .navigationBarTitle("ShowTouch")
         .ignoresSafeArea(.all)
