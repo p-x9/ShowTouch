@@ -29,9 +29,60 @@ class UIViewController_Hook: ClassHook<UIViewController> {
     }
 }
 
+class TouchTrackView: TouchTrackingUIView {
+    var displayLink: CADisplayLink?
+
+    override init(
+        radius: CGFloat = 20,
+        color: UIColor = .red,
+        offset: CGPoint = .zero,
+        isBordered: Bool = false,
+        borderColor: UIColor = .black,
+        borderWidth: CGFloat = 1,
+        isDropShadow: Bool = true,
+        shadowColor: UIColor = .black,
+        shadowRadius: CGFloat = 3,
+        image: UIImage? = nil,
+        isShowLocation: Bool = false
+    ) {
+        super.init(
+            radius: radius,
+            color: color,
+            offset: offset,
+            isBordered: isBordered,
+            borderColor: borderColor,
+            borderWidth: borderWidth,
+            isDropShadow: isDropShadow,
+            shadowColor: shadowColor,
+            shadowRadius: shadowRadius,
+            image: image,
+            isShowLocation: isShowLocation
+        )
+
+        displayLink = CADisplayLink(target: self, selector: #selector(update))
+        displayLink?.add(to: .current, forMode: .common)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        displayLink?.invalidate()
+        pointWindows.forEach {
+            $0.isHidden = true
+        }
+    }
+
+    @objc
+    func update() {
+        self.updateLocations()
+    }
+}
+
 extension UIWindow {
     func install() {
-        let v = TouchTrackingUIView(
+        let v = TouchTrackView(
             radius: localSettings.radius,
             color: UIColor(cgColor: .color(rgba: localSettings.color)),
             offset: localSettings.offset,
