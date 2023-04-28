@@ -6,4 +6,4 @@ Description: 👆Show a mark at the touched point on window.
 Maintainer: p-x9
 Author: p-x9
 Section: Tweaks
-Depends: ${ORION}, firmware (>= 12.2)
+Depends: ${ORION}, firmware (>= 14.0)
