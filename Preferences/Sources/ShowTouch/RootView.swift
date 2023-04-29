@@ -179,7 +179,6 @@ struct RootView: View {
             aboutSection
         }
         .navigationBarTitle("ShowTouch")
-        .ignoresSafeArea(.all)
     }
 }
 
