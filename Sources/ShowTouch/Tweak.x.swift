@@ -42,6 +42,7 @@ class TouchTrackView: TouchTrackingUIView {
         isDropShadow: Bool = true,
         shadowColor: UIColor = .black,
         shadowRadius: CGFloat = 3,
+        shadowOffset: CGPoint = .zero,
         image: UIImage? = nil,
         isShowLocation: Bool = false
     ) {
@@ -55,6 +56,7 @@ class TouchTrackView: TouchTrackingUIView {
             isDropShadow: isDropShadow,
             shadowColor: shadowColor,
             shadowRadius: shadowRadius,
+            shadowOffset: shadowOffset,
             image: image,
             isShowLocation: isShowLocation
         )
@@ -91,6 +93,7 @@ extension UIWindow {
             isDropShadow: localSettings.isDropShadow,
             shadowColor: UIColor(cgColor: .color(rgba: localSettings.shadowColor)),
             shadowRadius: localSettings.shadowRadius,
+            shadowOffset: localSettings.shadowOffset,
             isShowLocation: localSettings.isShowLocation
         )
         v.isHidden = true

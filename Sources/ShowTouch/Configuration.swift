@@ -33,6 +33,8 @@ struct Configuration: Codable, Equatable {
     public var shadowColor: String
     /// shadow radius of mark on touched point
     public var shadowRadius: CGFloat
+    /// shadow offset of mark on touched point
+    public var shadowOffset: CGPoint
 
     /// show coordinates label or not
     public var isShowLocation: Bool
@@ -50,6 +52,7 @@ extension Configuration {
               isDropShadow: true,
               shadowColor: "000000FF",
               shadowRadius: 3,
+              shadowOffset: .zero,
               isShowLocation: false
         )
     }
