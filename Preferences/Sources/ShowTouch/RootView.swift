@@ -45,7 +45,7 @@ struct RootView: View {
     var offsetSection: some View {
         Section {
             HStack {
-                Text("offset")
+                Text("Offset")
                     .padding(.trailing)
                 Divider()
                 VStack {
@@ -64,7 +64,7 @@ struct RootView: View {
                 }
             }
         } header: {
-            Text("offset")
+            Text("Offset")
         }
         .textCase(nil)
         .keyboardType(.numbersAndPunctuation)
@@ -130,6 +130,25 @@ struct RootView: View {
                 )
             }
             ColorPicker("Color", selection: preferences.shadowColor.color)
+            HStack {
+                Text("Offset")
+                    .padding(.trailing)
+                Divider()
+                VStack {
+                    HStack {
+                        Text("x")
+                        Spacer()
+                        TextField("x", text: preferences.shadowOffset.x.string)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    Divider()
+                    HStack {
+                        Text("y")
+                        TextField("y", text: preferences.shadowOffset.y.string)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+            }
         } header: {
             Text("Shadow")
         }
@@ -142,7 +161,7 @@ struct RootView: View {
                 openURL(URL(string: "https://github.com/p-x9/ShowTouch")!)
             } label: {
                 HStack {
-                    Image(uiImage: UIImage(named: "GitHub", in: .preference, with: nil)!)
+                    Image(uiImage: UIImage(named: "GitHub", in: .preference, with: nil) ?? UIImage())
                     Text("Source Code")
                 }
             }
@@ -151,7 +170,7 @@ struct RootView: View {
                 openURL(URL(string: "https://twitter.com/p_x9")!)
             } label: {
                 HStack {
-                    Image(uiImage: UIImage(named: "Twitter", in: .preference, with: nil)!)
+                    Image(uiImage: UIImage(named: "Twitter", in: .preference, with: nil) ?? UIImage())
                     Text("Twitter")
                 }
             }
