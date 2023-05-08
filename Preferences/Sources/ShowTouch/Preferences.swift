@@ -37,6 +37,7 @@ class Preferences: ObservableObject {
             set: { [unowned self] in
                 self.preferences[keyPath: keyPath] = $0
                 self.write()
+                self.notify()
             }
         )
     }

@@ -76,6 +76,25 @@ class TouchTrackView: TouchTrackingUIView {
         }
     }
 
+    override func updatePoints() {
+        readSettings()
+        super.updatePoints()
+    }
+
+    func readSettings() {
+//        radius = localSettings.radius
+        color = UIColor(cgColor: .color(rgba: localSettings.color))
+        offset = localSettings.offset
+        isBordered = localSettings.isBordered
+        borderColor = UIColor(cgColor: .color(rgba: localSettings.borderColor))
+        isDropShadow = localSettings.isDropShadow
+        shadowColor = UIColor(cgColor: .color(rgba: localSettings.shadowColor))
+        shadowRadius = localSettings.shadowRadius
+        shadowOffset = localSettings.shadowOffset
+        isShowLocation = localSettings.isShowLocation
+
+    }
+
     @objc
     func update() {
         self.updateLocations()
