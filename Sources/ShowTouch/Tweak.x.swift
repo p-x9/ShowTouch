@@ -76,23 +76,24 @@ class TouchTrackView: TouchTrackingUIView {
         }
     }
 
-    override func updatePoints() {
+    override func updateLocations() {
         readSettings()
-        super.updatePoints()
+        super.updateLocations()
     }
 
     func readSettings() {
-//        radius = localSettings.radius
+        isEnabled = localSettings.isEnabled
+        radius = localSettings.radius
         color = UIColor(cgColor: .color(rgba: localSettings.color))
         offset = localSettings.offset
         isBordered = localSettings.isBordered
         borderColor = UIColor(cgColor: .color(rgba: localSettings.borderColor))
+        borderWidth = localSettings.borderWidth
         isDropShadow = localSettings.isDropShadow
         shadowColor = UIColor(cgColor: .color(rgba: localSettings.shadowColor))
         shadowRadius = localSettings.shadowRadius
         shadowOffset = localSettings.shadowOffset
         isShowLocation = localSettings.isShowLocation
-
     }
 
     @objc
@@ -109,6 +110,7 @@ extension UIWindow {
             offset: localSettings.offset,
             isBordered: localSettings.isBordered,
             borderColor: UIColor(cgColor: .color(rgba: localSettings.borderColor)),
+            borderWidth: localSettings.borderWidth,
             isDropShadow: localSettings.isDropShadow,
             shadowColor: UIColor(cgColor: .color(rgba: localSettings.shadowColor)),
             shadowRadius: localSettings.shadowRadius,
@@ -159,9 +161,6 @@ struct ShowTouch: Tweak {
     init() {
         readPrefs()
         observePrefsChange()
-
-        if localSettings.isEnabled {
-            tweak().activate()
-        }
+        tweak().activate()
     }
 }

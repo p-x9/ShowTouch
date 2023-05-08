@@ -15,18 +15,13 @@ class Preferences: ObservableObject {
 
     let url: URL
 
+    let decoder = PropertyListDecoder()
     let encoder = PropertyListEncoder()
 
     init(path: String) {
         self.url = URL(fileURLWithPath: path)
-
-        guard let data = try? Data(contentsOf: url) else {
-            return
-        }
-        let decoder = PropertyListDecoder()
-        if let preferences = try? decoder.decode(Configuration.self, from: data) {
-            self.preferences = preferences
-        }
+        read()
+        observePrefsChange()
     }
 
     subscript<T>(dynamicMember keyPath: WritableKeyPath<Configuration, T>) -> Binding<T> {
@@ -42,6 +37,15 @@ class Preferences: ObservableObject {
         )
     }
 
+    func read() {
+        guard let data = try? Data(contentsOf: url) else {
+            return
+        }
+        if let preferences = try? decoder.decode(Configuration.self, from: data) {
+            self.preferences = preferences
+        }
+    }
+
     func write() {
         guard let data = try? encoder.encode(preferences) else { return }
         try? data.write(to: url)
@@ -51,5 +55,14 @@ class Preferences: ObservableObject {
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
                                              .preferenceChanged,
                                              nil, nil, true)
+    }
+
+    func observePrefsChange() {
+        let observer = unsafeBitCast(self, to: UnsafeRawPointer.self)
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+                                        observer, { _, observer, _, _, _ in
+            let observer = unsafeBitCast(observer, to: Preferences.self)
+            observer.read()
+        }, CFNotificationName.preferenceChanged.rawValue, nil, CFNotificationSuspensionBehavior.deliverImmediately)
     }
 }

@@ -1,0 +1,9 @@
+Package: com.p-x9.showtouch.cctoggle
+Name: CCToggle
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome Control Center module!
+Maintainer: p-x9
+Author: p-x9
+Section: Control Center (Modules)

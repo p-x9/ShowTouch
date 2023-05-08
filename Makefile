@@ -20,4 +20,5 @@ $(TWEAK_NAME)_FRAMEWORKS = UIKit CoreGraphics SwiftUI
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += Preferences
+SUBPROJECTS += CCToggle
 include $(THEOS_MAKE_PATH)/aggregate.mk
