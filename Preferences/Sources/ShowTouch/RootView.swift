@@ -155,6 +155,15 @@ struct RootView: View {
         .textCase(nil)
     }
 
+    var coordinateSection: some View {
+        Section {
+            Toggle("Enabled", isOn: preferences.isShowLocation)
+        } header: {
+            Text("Coordinate Label")
+        }
+        .textCase(nil)
+    }
+
     var aboutSection: some View {
         Section {
             Button {
@@ -194,6 +203,8 @@ struct RootView: View {
             borderSection
 
             shadowSection
+
+            coordinateSection
 
             aboutSection
         }
