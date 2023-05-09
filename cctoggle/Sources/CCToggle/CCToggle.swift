@@ -7,7 +7,9 @@ class CCToggle: CCUIToggleModule {
 
     // Return the icon of your module here
     override var iconGlyph: UIImage {
-        .init(systemName: "hand.tap")!
+        let configuration = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
+        let icon = UIImage(systemName: "hand.tap", withConfiguration: configuration) ?? UIImage()
+        return icon
     }
 
     //Return the color selection color of your module here
