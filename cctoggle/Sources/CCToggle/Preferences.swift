@@ -23,6 +23,10 @@ class Preferences {
         observePrefsChange()
     }
 
+    deinit {
+        removeObservePrefsChange()
+    }
+
     subscript<T>(dynamicMember keyPath: WritableKeyPath<Configuration, T>) -> T {
         get {
             self.preferences[keyPath: keyPath]
@@ -61,6 +65,11 @@ class Preferences {
             let observer = unsafeBitCast(observer, to: Preferences.self)
             observer.read()
         }, CFNotificationName.preferenceChanged.rawValue, nil, CFNotificationSuspensionBehavior.deliverImmediately)
+    }
+
+    func removeObservePrefsChange() {
+        let observer = unsafeBitCast(self, to: UnsafeRawPointer.self)
+        CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(), observer, .preferenceChanged, nil)
     }
 
 }
