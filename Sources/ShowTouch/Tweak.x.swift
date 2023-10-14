@@ -44,7 +44,8 @@ class TouchTrackView: TouchTrackingUIView {
         shadowRadius: CGFloat = 3,
         shadowOffset: CGPoint = .zero,
         image: UIImage? = nil,
-        isShowLocation: Bool = false
+        isShowLocation: Bool = false,
+        displayMode: DisplayMode = .always
     ) {
         super.init(
             radius: radius,
@@ -58,7 +59,8 @@ class TouchTrackView: TouchTrackingUIView {
             shadowRadius: shadowRadius,
             shadowOffset: shadowOffset,
             image: image,
-            isShowLocation: isShowLocation
+            isShowLocation: isShowLocation,
+            displayMode: displayMode
         )
 
         displayLink = CADisplayLink(target: self, selector: #selector(update))
