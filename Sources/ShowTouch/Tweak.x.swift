@@ -96,6 +96,7 @@ class TouchTrackView: TouchTrackingUIView {
         shadowRadius = localSettings.shadowRadius
         shadowOffset = localSettings.shadowOffset
         isShowLocation = localSettings.isShowLocation
+        displayMode = localSettings.displayMode
     }
 
     @objc
@@ -117,7 +118,8 @@ extension UIWindow {
             shadowColor: UIColor(cgColor: .color(rgba: localSettings.shadowColor)),
             shadowRadius: localSettings.shadowRadius,
             shadowOffset: localSettings.shadowOffset,
-            isShowLocation: localSettings.isShowLocation
+            isShowLocation: localSettings.isShowLocation,
+            displayMode: localSettings.displayMode
         )
         v.isHidden = true
 

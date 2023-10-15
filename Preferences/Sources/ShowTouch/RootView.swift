@@ -42,6 +42,17 @@ struct RootView: View {
         }
     }
 
+    var recordingModeSection: some View {
+        Section {
+            Picker("Display Mode",
+                   selection: preferences.displayMode) {
+                ForEach(DisplayMode.allCases, id: \.self) {
+                    Text($0.title)
+                }
+            }
+        }
+    }
+
     var offsetSection: some View {
         Section {
             HStack {
@@ -197,6 +208,8 @@ struct RootView: View {
             }
 
             mainSection
+
+            recordingModeSection
 
             offsetSection
 
