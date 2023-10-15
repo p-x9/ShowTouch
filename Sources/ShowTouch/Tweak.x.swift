@@ -47,6 +47,9 @@ class TouchTrackView: TouchTrackingUIView {
         isShowLocation: Bool = false,
         displayMode: DisplayMode = .always
     ) {
+        UIWindow.hooked = true
+        UIWindow.hook2()
+
         super.init(
             radius: radius,
             color: color,
@@ -121,6 +124,7 @@ extension UIWindow {
             isShowLocation: localSettings.isShowLocation,
             displayMode: localSettings.displayMode
         )
+        v.shouldPropagateEventAcrossWindows = true
         v.isHidden = true
 
         let window = self
@@ -133,6 +137,56 @@ extension UIWindow {
             v.leftAnchor.constraint(equalTo: window.leftAnchor),
             v.rightAnchor.constraint(equalTo: window.rightAnchor),
         ])
+    }
+
+    static public var hooked2 = false
+
+    static func hook2() {
+        if Self.hooked2 { return }
+        Self.swizzle(orig: #selector(sendEvent(_:)), hooked: #selector(hooked_sendEvent2(_:)))
+        Self.hooked2 = true
+    }
+
+    @objc
+    func hooked_sendEvent2(_ event: UIEvent) {
+        hooked_sendEvent2(event)
+
+        guard case .touches = event.type,
+              let touches = event.allTouches else {
+            return
+        }
+
+        let began = touches.filter { $0.phase == .began }
+        let moved = touches.filter { $0.phase == .moved }
+        let ended = touches.filter { $0.phase == .cancelled || $0.phase == .ended }
+
+        let touchLocationViews: [any TouchTrackable] = [windowScene]
+            .compactMap { $0 }
+            .reduce([]) { partialResult, scene in
+                partialResult + scene.windows
+            }
+            .reduce([]) { partialResult, window in
+                partialResult + window.find(for: TouchLocationCocoaView.self) + window.find(for: TouchTrackingUIView.self)
+            }
+
+        touchLocationViews
+            .filter {
+                if let superview = $0.superview {
+                    return !superview.isHidden
+                }
+                return true
+            }
+            .forEach { view in
+                if !began.isEmpty {
+                    view.touchesBegan(began, with: self)
+                }
+                if !moved.isEmpty {
+                    view.touchesMoved(moved, with: self)
+                }
+                if !ended.isEmpty {
+                    view.touchesEndedOrCancelled(ended, with: self)
+                }
+            }
     }
 }
 
