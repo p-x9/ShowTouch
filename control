@@ -1,6 +1,6 @@
 Package: com.p-x9.showtouch
 Name: showtouch
-Version: 0.3.0
+Version: 0.3.1
 Architecture: iphoneos-arm
 Description: 👆Show a mark at the touched point on window.
 Maintainer: p-x9
