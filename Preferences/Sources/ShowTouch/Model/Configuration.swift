@@ -38,6 +38,9 @@ struct Configuration: Codable, Equatable {
 
     /// show coordinates label or not
     public var isShowLocation: Bool
+
+    /// display mode of touched points.
+    public var displayMode: DisplayMode
 }
 
 extension Configuration {
@@ -53,7 +56,24 @@ extension Configuration {
               shadowColor: "000000FF",
               shadowRadius: 3,
               shadowOffset: .zero,
-              isShowLocation: false
+              isShowLocation: false,
+              displayMode: .always
         )
+    }
+}
+
+public enum DisplayMode: Int, Codable, Hashable, CaseIterable {
+    case always = 0
+//    case debugOnly
+    case recordingOnly = 2
+}
+
+extension DisplayMode {
+    var title: String {
+        switch self {
+        case .always: return "always"
+//        case .debugOnly:  return "debug only"
+        case .recordingOnly: return "recording only"
+        }
     }
 }
